@@ -5,6 +5,7 @@
 		<div class="auto-container">
 			<div class="outer-box">
 				<div class="copyright-text">© {{ date('Y') }} <a href="#">{{ env('APP_NAME') }}</a>. All Right Reserved.</div>
+				<div class="copyright-text"><a href="{{ route('pages.policy') }}">{{ env('APP_NAME') }} Data Policy</a></div>
 				<div class="social-links">
 					<a href="#"><i class="fab fa-facebook-f"></i></a>
 					<a href="#"><i class="fab fa-twitter"></i></a>

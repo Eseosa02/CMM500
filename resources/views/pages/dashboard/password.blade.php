@@ -46,6 +46,9 @@
 							<div class="form-group col-lg-7 col-md-12">
 								<label>New Password</label>
 								<input type="password" name="password">
+								<p class="m-0">
+									<i>Password must be minimum of 8 characters, containing letters, number and symbols</i>
+								</p>
 							</div>
 
 							<!-- Input -->

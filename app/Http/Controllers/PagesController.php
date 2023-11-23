@@ -37,8 +37,8 @@ class PagesController extends Controller
         return view('pages.contact');
     }
 
-    public function terms(Request $request) {
-        return view('pages.terms');
+    public function privacyPolicy(Request $request) {
+        return view('pages.privacy-policy');
     }
 
     public function employerDetails(Request $request, $unique_id, $name) {

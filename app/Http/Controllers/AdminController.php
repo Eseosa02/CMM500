@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rules\Password;
 
 class AdminController extends Controller
 {
@@ -332,7 +333,11 @@ class AdminController extends Controller
     public function passwordChange(Request $request) {
         $validator = Validator::make($request->all(), [
             'old_password' => 'required',
-            'password' => 'required',
+            'password' => ['required', Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols()],
             'password_confirmation' => 'required|same:password'
         ]);
         

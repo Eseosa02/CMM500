@@ -6,7 +6,7 @@ use App\Models\JobNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
@@ -69,7 +69,11 @@ class DashboardController extends Controller
     public function passwordChange(Request $request) {
         $validator = Validator::make($request->all(), [
             'old-password' => 'required|current_password',
-            'password' => 'required',
+            'password' => ['required', Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols()],
             'password_confirmation' => 'required|same:password'
         ], [
             'old-password.current_password' => 'Current password is incorrect'

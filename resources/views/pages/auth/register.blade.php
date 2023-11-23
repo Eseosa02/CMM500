@@ -44,6 +44,9 @@
 						<div class="form-group">
 							<label>Password</label>
 							<input id="password-field" type="password" name="password" value="" placeholder="Password">
+							<p class="m-0">
+								<i>Password must be minimum of 8 characters, containing letters, number and symbols</i>
+							</p>
 						</div>
 
 						<div class="form-group">
@@ -58,7 +61,7 @@
 										<input type="checkbox" name="accepted">
 										<span class="slider round gdpr"></span>
 										<span class="title">
-											<i>I hereby consent to the processing of the personal data that I have provided and declare my agreement with the data protection regulations in the data privacy statement of {{ env('APP_NAME') }}</i>
+											<i>I hereby consent to the processing of the personal data that I have provided and declare my agreement with the data protection regulations in the <a href="{{ route('pages.policy') }}">data privacy</a> statement of {{ env('APP_NAME') }}</i>
 										</span>
 									</label>
 								</li>

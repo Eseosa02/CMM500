@@ -25,7 +25,7 @@ Route::prefix('contact')->group(function () {
     Route::get('/', [PagesController::class, 'contact'])->name('pages.contact');
     Route::post('/', [PagesController::class, 'contactSubmit'])->name('pages.contact.create');
 });
-Route::get('/terms', [PagesController::class, 'terms'])->name('pages.terms');
+Route::get('/privacy-policy', [PagesController::class, 'privacyPolicy'])->name('pages.policy');
 Route::prefix('recruiter')->group(function () {
     Route::get('detail/{uniqueId}/{name}', [PagesController::class, 'employerDetails'])->name('pages.recruiter.detail');
 });
