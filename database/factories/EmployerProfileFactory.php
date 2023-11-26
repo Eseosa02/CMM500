@@ -32,11 +32,13 @@ class EmployerProfileFactory extends Factory
             EmployerProfile::CITY => $this->faker->randomElement($country['states']),
             EmployerProfile::COUNTRY => $country['name'],
             EmployerProfile::IMAGE => $this->faker->randomElement(['https://placehold.co/300x250@2x.png', 'https://placehold.co/300x250?text=Hello+World&font=roboto']),
+            EmployerProfile::DOCUMENT => $this->faker->randomElement(['uploads/candidate/cv/1697383793.pdf', 'uploads/candidate/cv/1697564798.pdf', 'uploads/candidate/cv/1697582549.pdf']),
             EmployerProfile::FB_LINK => $this->faker->url(),
             EmployerProfile::TW_LINK => $this->faker->url(),
             EmployerProfile::IN_LINK => $this->faker->url(),
             EmployerProfile::LINKEDIN_LINK => $this->faker->url(),
             EmployerProfile::WEBSITE => $this->faker->url(),
+            EmployerProfile::APPROVAL => $this->faker->randomElement(['verified', 'unverified']),
         ];
     }
 }

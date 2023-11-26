@@ -27,10 +27,12 @@ class CreateEmployerProfilesTable extends Migration
             $table->string(EmployerProfile::CITY)->nullable();
             $table->string(EmployerProfile::COUNTRY)->nullable();
             $table->text(EmployerProfile::IMAGE)->nullable();
+            $table->text(EmployerProfile::DOCUMENT)->nullable();
             $table->text(EmployerProfile::FB_LINK)->nullable();
             $table->text(EmployerProfile::TW_LINK)->nullable();
             $table->text(EmployerProfile::IN_LINK)->nullable();
             $table->text(EmployerProfile::LINKEDIN_LINK)->nullable();
+            $table->enum(EmployerProfile::APPROVAL, ['unverified', 'verified', 'rejected'])->default('unverified');
             $table->text(EmployerProfile::WEBSITE)->nullable();
             $table->timestamps();
         });

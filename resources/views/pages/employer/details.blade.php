@@ -25,6 +25,16 @@
                                 <a href="{{ route('dashboard.employer.job.manage') }}" class="theme-btn btn-style-one">View more jobs</a>
                             </div>
                         @endif
+                        @if (Auth::guard('admin')->check() && Auth::guard('admin')->user())
+                            <div class="btn-box">
+                                @if (in_array($employerDetails->approval, ['unverified', 'rejected']))
+                                    <a href="{{ route('employer.verification.update', ['employerId' => $employerDetails->unique_id, 'status' => 'verified']) }}" class="theme-btn btn-style-four admin-approve-btn px-2">Approve Profile</a>
+                                @endif
+                                @if (in_array($employerDetails->approval, ['unverified', 'verified']))
+                                    <a href="{{ route('employer.verification.update', ['employerId' => $employerDetails->unique_id, 'status' => 'rejected']) }}" class="theme-btn btn-style-two admin-approve-btn danger">Reject Profile</a>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -75,6 +85,11 @@
     
                     <div class="sidebar-column col-lg-4 col-md-12 col-sm-12">
                         <aside class="sidebar">
+                            @if (Auth::guard('admin')->check() && Auth::guard('admin')->user())
+                                <div class="btn-box">
+                                    <a href="{{ $employerDetails->document ? asset($employerDetails->document) : '#' }}" class="theme-btn btn-style-one" @if ($employerDetails->document) target="_blank" @else data-toggle="tooltip" data-placement="bottom" title="No Document Uploaded yet" disabled @endif>Download Attachment</a>
+                                </div>
+                            @endif
                             <div class="sidebar-widget company-widget">
                                 <div class="widget-content">
                                     <ul class="company-info mt-0">

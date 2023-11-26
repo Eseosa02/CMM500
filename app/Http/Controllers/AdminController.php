@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\EmployerProfile;
 use App\Models\Feedback;
 use App\Models\JobApplication;
 use App\Models\JobListing;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 
 class AdminController extends Controller
@@ -114,6 +116,24 @@ class AdminController extends Controller
             'recruiters' => $recruiters,
 
         ]);
+    }
+
+    public function recruiterVerificationUpdate(Request $request, $employerId, $status) {
+        $employerInfo = EmployerProfile::where(EmployerProfile::UNIQUE_ID, $employerId)->first();
+        
+        if (!$employerInfo) {
+            abort(404);
+        }
+        
+        if (!in_array($status, ['rejected', 'verified'])) {
+            return redirect()->back();
+        }
+        
+        $employerInfo->update([
+            EmployerProfile::APPROVAL => $status
+        ]);
+        
+        return redirect()->route('dashboard.admin.recruiters');
     }
 
     public function joblistingsIndex(Request $request) {

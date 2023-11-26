@@ -60,6 +60,9 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['verified', 'profile.completion'])->group(function () {
+        Route::prefix('employer/account')->group(function () {
+            Route::get('verification', [EmployerController::class, 'accountVerificationIndex'])->name('employer.verification');
+        });
         Route::prefix('dashboard')->group(function () {
             Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
             Route::prefix('candidate')->group(function () {
@@ -97,24 +100,26 @@ Route::middleware(['auth'])->group(function () {
                     Route::post('{jobId}/remove', [CandidateController::class, 'bookmarkJobRemove'])->name('dashboard.candidate.bookmark.remove');
                 });
             });
-            Route::prefix('employer')->group(function () {
-                Route::get('/', [EmployerController::class, 'index'])->name('dashboard.employer.index');
-                Route::prefix('profile')->group(function () {
-                    Route::get('index', [EmployerController::class, 'profileIndex'])->name('dashboard.employer.profile.index');
-                    Route::post('index', [EmployerController::class, 'profileIndexUpdate'])->name('dashboard.employer.profile.update');
-                });
-                Route::prefix('jobs')->group(function () {
-                    Route::get('create', [EmployerController::class, 'jobCreateIndex'])->name('dashboard.employer.job.index');
-                    Route::post('create', [EmployerController::class, 'jobCreate'])->name('dashboard.employer.job.create');
-                    Route::prefix('manage')->group(function () {
-                        Route::get('/', [EmployerController::class, 'jobsManage'])->name('dashboard.employer.job.manage');
-                        Route::get('/posted', [EmployerController::class, 'jobsPostedManage'])->name('dashboard.employer.job.posted');
-                        Route::get('applications', [EmployerController::class, 'jobsApplicationManage'])->name('dashboard.employer.job.applications');
-                        Route::get('applications/{jobReference}/applicants', [EmployerController::class, 'jobsApplicantManage'])->name('dashboard.employer.job.manage.applicant');
-                        Route::delete('delete', [EmployerController::class, 'jobListingDelete'])->name('dashboard.employer.job.delete');
+            Route::middleware(['employer.verified'])->group(function () {
+                Route::prefix('employer')->group(function () {
+                    Route::get('/', [EmployerController::class, 'index'])->name('dashboard.employer.index');
+                    Route::prefix('profile')->group(function () {
+                        Route::get('index', [EmployerController::class, 'profileIndex'])->name('dashboard.employer.profile.index');
+                        Route::post('index', [EmployerController::class, 'profileIndexUpdate'])->name('dashboard.employer.profile.update');
                     });
-                    Route::prefix('decision')->group(function () {
-                        Route::post('/', [EmployerController::class, 'jobsApplicantManageDecision'])->name('dashboard.employer.job.manage.decision');
+                    Route::prefix('jobs')->group(function () {
+                        Route::get('create', [EmployerController::class, 'jobCreateIndex'])->name('dashboard.employer.job.index');
+                        Route::post('create', [EmployerController::class, 'jobCreate'])->name('dashboard.employer.job.create');
+                        Route::prefix('manage')->group(function () {
+                            Route::get('/', [EmployerController::class, 'jobsManage'])->name('dashboard.employer.job.manage');
+                            Route::get('/posted', [EmployerController::class, 'jobsPostedManage'])->name('dashboard.employer.job.posted');
+                            Route::get('applications', [EmployerController::class, 'jobsApplicationManage'])->name('dashboard.employer.job.applications');
+                            Route::get('applications/{jobReference}/applicants', [EmployerController::class, 'jobsApplicantManage'])->name('dashboard.employer.job.manage.applicant');
+                            Route::delete('delete', [EmployerController::class, 'jobListingDelete'])->name('dashboard.employer.job.delete');
+                        });
+                        Route::prefix('decision')->group(function () {
+                            Route::post('/', [EmployerController::class, 'jobsApplicantManageDecision'])->name('dashboard.employer.job.manage.decision');
+                        });
                     });
                 });
             });
@@ -145,7 +150,10 @@ Route::prefix('admin')->group(function () {
             });
             Route::get('/joblistings', [AdminController::class, 'joblistingsIndex'])->name('dashboard.admin.joblistings');
             Route::get('/jobseekers', [AdminController::class, 'jobseekersIndex'])->name('dashboard.admin.jobseekers');
-            Route::get('/recruiters', [AdminController::class, 'recruitersIndex'])->name('dashboard.admin.recruiters');
+            Route::prefix('recruiters')->group(function () {
+                Route::get('/index', [AdminController::class, 'recruitersIndex'])->name('dashboard.admin.recruiters');
+                Route::get('/account/{employerId}/{status}', [AdminController::class, 'recruiterVerificationUpdate'])->name('employer.verification.update');
+            });
             Route::prefix('member')->group(function () {
                 Route::post('status', [AdminController::class, 'memberStatusUpdate'])->name('dashboard.admin.member.status');
                 Route::delete('delete', [AdminController::class, 'memberDelete'])->name('dashboard.admin.member.delete');

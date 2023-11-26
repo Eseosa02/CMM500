@@ -55,7 +55,18 @@
                                             <label class="uploadButton-button ripple-effect" for="upload">Browse Logo</label>
                                             <span class="uploadButton-file-name"></span>
                                         </div>
-                                        <div class="text">Max file size is 1MB, Minimum dimension: 330x300 And Suitable files are .jpg & .png</div>
+                                        <div class="text">Max file size is 5MB, Minimum dimension: 330x300 And Suitable files are .jpg & .png</div>
+                                    </div>
+                                    <div class="uploading-outer">
+                                        @if ($employer->employerInfo->document)
+                                            <a href="{{ asset($employer->employerInfo->document) }}" target="_blank">
+                                                <span class="company-logo">
+                                                    <img src="{{ asset('assets/images/document.png') }}" alt="" width="40%">
+                                                </span>
+                                            </a>
+                                        @endif
+                                        <input type="file" name="document" accept="application/pdf" id="document" />
+                                        <div class="text">Upload Tax document or utility bill or company registration, Max file size is 5MB & document type is .pdf</div>
                                     </div>
                                     <div class="row">
                                         <!-- Input -->

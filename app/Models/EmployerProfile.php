@@ -16,6 +16,7 @@ class EmployerProfile extends Model
     const INDUSTRY = 'industry';
     const COMPANY_SIZE = 'company_size';
     const IMAGE = 'image';
+    const DOCUMENT = 'document';
     const FOUNDED = 'founded';
     const ADDRESS = 'address';
     const CITY = 'city';
@@ -25,6 +26,7 @@ class EmployerProfile extends Model
     const IN_LINK = 'in_link';
     const LINKEDIN_LINK = 'linkedin_link';
     const WEBSITE = 'website';
+    const APPROVAL = 'approval';
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +49,7 @@ class EmployerProfile extends Model
         self::IN_LINK,
         self::LINKEDIN_LINK,
         self::WEBSITE,
+        self::APPROVAL,
     ];
 
     /**

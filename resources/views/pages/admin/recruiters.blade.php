@@ -39,8 +39,8 @@
                                                 <th>Company Name</th>
                                                 <th>Email</th>
                                                 <th>Status</th>
-                                                <th>Verified date</th>
-                                                <th>Completion rate</th>
+                                                {{-- <th>Profile Progress</th> --}}
+                                                <th>Approval</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -57,7 +57,7 @@
                                                         <td>
                                                             {{ $recruiter->name }}
                                                             <a href="{{ route('pages.recruiter.detail', ['uniqueId' => $recruiter->employerInfo->unique_id, 'name' => $recruiter->name ]) }}">
-                                                                <button data-text="View Recruiter"><span class="la la-external-link-alt"></span></button>
+                                                                <button data-text="View Recruiter"><span class="la la-external-link-alt" style="font-size: 20px"></span></button>
                                                             </a>
                                                         </td>
                                                         <td>{{ $recruiter->email }}</td>
@@ -68,15 +68,24 @@
                                                                 <span class="label label-danger">Disabled</span>
                                                             @endif
                                                         </td>
-                                                        <td>{{ $recruiter->email_verified_at }}</td>
+                                                        {{-- <td>{{ $recruiter->isComplete }}%</td> --}}
                                                         <td>
-                                                            <div class="ls-show-more m-0">
-                                                                <div class="bar m-0" style="width: 100px">
-                                                                    <span class="bar-inner" style="width: {{ $recruiter->isComplete }}%"></span>
-                                                                </div>
-                                                            </div>
+                                                            @if ($recruiter->employerInfo->approval === 'rejected')
+                                                                <span class="label label-danger">Rejected</span>
+                                                            @elseif ($recruiter->employerInfo->approval === 'verified')
+                                                                <span class="label label-success">Approved</span>
+                                                            @else
+                                                                <span class="label label-primary">Pending</span>
+                                                            @endif
                                                         </td>
                                                         <td>
+                                                            <a 
+                                                                href="{{ route('pages.recruiter.detail', ['uniqueId' => $recruiter->employerInfo->unique_id, 'name' => $recruiter->name ]) }}"
+                                                                data-toggle="tooltip" 
+                                                                data-placement="bottom" title="View Profile"
+                                                            >
+                                                                <i class="la la-external-link-alt" style="font-size: 20px"></i>
+                                                            </a>
                                                             @if ($recruiter->status === 'active')
                                                                 <a href="#" data-toggle="tooltip" data-placement="bottom" title="Deactivate Account" 
                                                                     onclick="handleUserStatus(event, '{{ openssl_encrypt($recruiter->id, 'AES-128-ECB', 'FP25Hg9KKNJx') }}', 'disabled')"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\JobNotificationJob;
 use App\Models\Category;
+use App\Models\EmployerProfile;
 use App\Models\Feedback;
 use App\Models\JobAlert;
 use App\Models\JobApplication;
@@ -74,7 +75,8 @@ class EmployerController extends Controller
             'description' => 'required',
             'country' => 'required',
             'city' => 'required',
-            'image' => 'nullable',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'document' => 'nullable|mimes:pdf|max:5120',
             'address' => 'required',
             'fb_link' => 'nullable|url:http,https',
             'tw_link' => 'nullable|url:http,https',
@@ -103,6 +105,17 @@ class EmployerController extends Controller
             $dataToStore['image']= 'uploads/employers/' . $filename;
             if ($user->employerInfo->image) {
                 File::delete(public_path($user->employerInfo->image));
+            }
+        }
+
+        if (!empty($request->document)) {
+            $file = $request->file('document');
+            $extension = $file->getClientOriginalExtension(); 
+            $filename = time(). '.' . $extension;
+            $file->move(public_path('uploads/employers/documents'), $filename);
+            $dataToStore['document']= 'uploads/employers/documents/' . $filename;
+            if ($user->employerInfo->document) {
+                File::delete(public_path($user->employerInfo->document));
             }
         }
 
@@ -327,5 +340,12 @@ class EmployerController extends Controller
         }
         
         return back()->withErrors('You don\'t have permission for this action');
+    }
+
+    public function accountVerificationIndex(Request $request) {
+        if ($request->user()->employerInfo && $request->user()->employerInfo->approval === 'verified') {
+            return redirect()->route('dashboard.employer.index');
+        }
+        return view('pages.auth.account-verification');
     }
 }
