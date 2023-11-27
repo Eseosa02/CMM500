@@ -301,7 +301,8 @@ class CandidateController extends Controller
         if ($request->has('is_present')) {
             $dataToStore['is_present'] = 1;
         } else {
-            $dataToStore['is_present'] = $request->end_date;
+            $dataToStore['end_date'] = $request->end_date;
+            $dataToStore['is_present'] = 0;
         }
 
         if ($request->mode === 'create') {
